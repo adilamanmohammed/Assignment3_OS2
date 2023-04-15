@@ -1,17 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// defining struct for linked list
-struct Linked_List
-{
-    char Refernce_String[10];
-    struct Linked_List *next;
-};
-
-typedef struct Linked_List node;
-node *Head = NULL;
-node *Tail = NULL;
+#include "functions.h"
 
 int main()
 {
