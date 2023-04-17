@@ -130,25 +130,26 @@ void print_List()
 
 
 
-void algo(int file_number, int frame_size, int algo_nm)
+void algo(int f_nm, int f_sz, int algo_nm)
 {
 
-    char reference_string[10], operator;
     FILE *p;
-    if (file_number == 1)
+    char stringrf[100], optr;
+    
+    if (f_nm == 1)
     {
-        char *fileName = "test.txt";
-        p = fopen(fileName, "r");
+        char *fname = "test.txt";
+        p = fopen(fname, "r");
     }
-    else if (file_number == 2)
+    else if (f_nm == 2)
     {
-        char *fileName = "gcc.txt";
-        p = fopen(fileName, "r");
+        char *fname = "gcc.txt";
+        p = fopen(fname, "r");
     }
     else
     {
-        char *fileName = "bzip.txt";
-        p = fopen(fileName, "r");
+        char *fname = "bzip.txt";
+        p = fopen(fname, "r");
     }
 
     if (p == NULL)
@@ -157,53 +158,53 @@ void algo(int file_number, int frame_size, int algo_nm)
         exit(0);
     }
 
-    int frame_count = 0, page_miss = 0, page_hit = 0, read_count = 0, write_count = 0;
+    int frm_c = 0, pg_miss = 0, p_hit = 0, rd_c = 0, wr_c = 0;
 
     if(algo_nm==1)
     {
         printf("Chosen algorithm is : FIFO\n");
-        while (fscanf(p,"%s %c\n", reference_string, &operator) != EOF)
+        while (fscanf(p,"%s %c\n", stringrf, &optr) != EOF)
         {
-            if (frame_count < frame_size)
+            if (frm_c < f_sz)
             {
-                if (searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queque
+                if (searching(stringrf, algo_nm) == 0) // Check if page is present in Frame queque
                 {
-                    insert_nd(reference_string);
-                    frame_count++; // Update frame index as page has been added
-                    page_miss++;
-                    if (operator== 'R')
+                    insert_nd(stringrf);
+                    frm_c= frm_c+1; // Update frame index as page has been added
+                    pg_miss=pg_miss+1;
+                    if (optr== 'R')
                     {
-                        read_count++;
+                        rd_c=rd_c+1;
                     }
                     else
                     {
-                        write_count++;
+                        rd_c=rd_c+1;
                     }
                 }
                 else
                 {
-                    page_hit++;
+                    p_hit=p_hit+1;
                 }
             }
             else
             {
-                if(searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queue
+                if(searching(stringrf, algo_nm) == 0) // Check if page is present in Frame queue
                 {
                     del_nd(0,1);
-                    insert_nd(reference_string);
-                    page_miss++;
-                    if (operator== 'R')
+                    insert_nd(stringrf);
+                    pg_miss=pg_miss+1;
+                    if (optr== 'R')
                     {
-                       read_count++;
+                       rd_c=rd_c+1;
                     }
                     else
                     {
-                        write_count++;
+                        wr_c=wr_c+1;
                     }
                 }
                 else
                 {
-                    page_hit++;
+                    p_hit=p_hit+1;
                 }
             }
         }
@@ -211,52 +212,49 @@ void algo(int file_number, int frame_size, int algo_nm)
     else
     {   
         printf("Chosen algorithm is : LRU\n");
-        while (fscanf(p,"%s %c\n", reference_string, &operator) != EOF)
+        while (fscanf(p,"%s %c\n", stringrf, &optr) != EOF)
         {
             int position;
-            if (frame_count < frame_size)
+            if (frm_c < f_sz)
             {
-                position = searching(reference_string, algo_nm);
+                position = searching(stringrf, algo_nm);
                 if (position == -1) // Check if page is present in Frame queque
                 {
-                    insert_nd(reference_string);
-                    frame_count++; // Update frame index as page has been added
-                    page_miss++;
-                    if (operator== 'R')
+                    insert_nd(stringrf);
+                    frm_c=frm_c+1; // Update frame index as page has been added
+                    pg_miss=pg_miss+1;
+                    if (optr== 'R')
                     {
-                        read_count++;
+                        rd_c=rd_c+1;
                     }
                     else
                     {
-                        write_count++;
+                        wr_c=wr_c+1;
                     }
                 }
                 else
                 {
-                    page_hit++;
+                    p_hit=p_hit+1;
                     del_nd(position,2);
                 }
             }
             else
             {
-                position = searching(reference_string, algo_nm);
+                position = searching(stringrf, algo_nm);
                 if (position == -1) // Check if page is present in Frame queue
                 {
                     del_nd(0,1);
-                    insert_nd(reference_string);
-                    page_miss++;
-                    if (operator== 'R')
-                    {
-                        read_count++;
-                    }
+                    insert_nd(stringrf);
+                    pg_miss=pg_miss+1;
+
+                    if (optr== 'R')
+                    rd_c=rd_c+1;
                     else
-                    {
-                        write_count++;
-                    }
+                    wr_c=wr_c+1;
                 }
                 else
                 {
-                    page_hit++;
+                    p_hit=p_hit+1;
                     del_nd(position,2);
                 }
             }
@@ -264,6 +262,6 @@ void algo(int file_number, int frame_size, int algo_nm)
     }
 
     print_List();
-    printf("\nNumber of Reads: %d\nNumber of Writes: %d\n", read_count, write_count);
+    printf("\nNumber of Reads: %d \nNumber of Writes: %d\n", rd_c, wr_c);
     fclose(p);
 }
