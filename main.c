@@ -6,47 +6,40 @@
 int main(int argc, char* argv[])
 {
 
-    int frame_size = atoi(argv[3]);
-    int file = atoi(argv[1]);
-    int algorithm_type = atoi(argv[2]);
+    int frame_sz = atoi(argv[2]);
+    int file_nm = atoi(argv[1]);
+    int algo_nm = atoi(argv[3]);
+    int flag =0;
     
-    switch (file)
-    {
-    case 1:
-        printf("\nYou selected test.txt");
-        break;
-    case 2:
-        printf("\nYou selected gcc.txt");
-        break;
-    case 3:
-        printf("\nYou selected bzip.txt");
-        break;
-    default:
-        printf("\nPlease Select correct option ");
-    }
+    printf("Selection details of file, frames and algorithm :\n");
 
-    
-    switch (algorithm_type)
-    {
-    case 1:
-        printf("\nYou selected FIFO");
-        break;
-    case 2:
-        printf("\nYou selected LRU");
-        break;
-    default:
-        printf("\nPlease Select correct option ");
-    }
-
-    printf("\nselected number of frame size : %d\n",frame_size);
-
-    if (algorithm_type == 1)
-    {
-        FIFO_algorithm(file, frame_size);
-    }
+    if(file_nm==1)
+    printf("chosen file : test.txt\n");
+    else if(file_nm==2)
+    printf("chosen file : gcc.txt\n");
+    else if(file_nm==3)
+    printf("chosen file : bzip.txt\n");
     else
     {
-        LRU_algorithm(file, frame_size);
+    printf("You have chosen a wrong file number please run the code again and enter the correct file number \n 1.test.txt or 2.gcc.txt or 3.bzip.txt\n");
+    exit(0);
     }
+
+    printf("chosen number of frames : %d\n",frame_sz);
+        if(algo_nm==1)
+        {
+        printf("chosen algorithm : FIFO\n");
+        algo_fifo(file_nm, frame_sz);
+        }
+        else if(algo_nm==2)
+        {
+        printf("chosen algorithm : LRU\n");
+        algo_lru(file_nm, frame_sz);
+        }
+        else
+        {
+            printf("You have chosen a wrong algorithm number please run the code again and enter the correct algorithm number \n1.FIFO or 2.LRU\n");
+        }
+    
     return 0;
 }
