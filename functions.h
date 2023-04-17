@@ -1,5 +1,4 @@
-int search_Item(char *);
-int search_Item_LRU(char *);
+int searching(char *, int);
 void print_List();
 void insert_Operation(char *);
 void delete_Node();
