@@ -6,8 +6,8 @@
 int main(int argc, char* argv[])
 {
 
-    int frame_sz = atoi(argv[2]);
     int file_nm = atoi(argv[1]);
+    int frame_sz = atoi(argv[2]);
     int algo_nm = atoi(argv[3]);
     
 
