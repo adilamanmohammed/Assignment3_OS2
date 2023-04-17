@@ -9,9 +9,10 @@ int main(int argc, char* argv[])
     int frame_sz = atoi(argv[2]);
     int file_nm = atoi(argv[1]);
     int algo_nm = atoi(argv[3]);
-    int flag =0;
     
+
     printf("Selection details of file, frames and algorithm :\n");
+
 
     if(file_nm==1)
     printf("chosen file : test.txt\n");
@@ -25,21 +26,18 @@ int main(int argc, char* argv[])
     exit(0);
     }
 
+
     printf("chosen number of frames : %d\n",frame_sz);
-        if(algo_nm==1)
-        {
-        printf("chosen algorithm : FIFO\n");
-        algo_fifo(file_nm, frame_sz);
-        }
-        else if(algo_nm==2)
-        {
-        printf("chosen algorithm : LRU\n");
-        algo_lru(file_nm, frame_sz);
-        }
-        else
-        {
-            printf("You have chosen a wrong algorithm number please run the code again and enter the correct algorithm number \n1.FIFO or 2.LRU\n");
-        }
+
+
+    if(algo_nm != 1||2)
+    {
+        printf("You have chosen a wrong algorithm number please run the code again and enter the correct algorithm number \n1.FIFO or 2.LRU\n");
+        exit(0);
+    }
+    else
+    algo(file_nm,frame_sz, algo_nm);
+
     
     return 0;
 }
