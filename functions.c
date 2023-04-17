@@ -134,24 +134,24 @@ void algo(int file_number, int frame_size, int algo_nm)
 {
 
     char reference_string[10], operator;
-    FILE *fp;
+    FILE *p;
     if (file_number == 1)
     {
         char *fileName = "test.txt";
-        fp = fopen(fileName, "r");
+        p = fopen(fileName, "r");
     }
     else if (file_number == 2)
     {
         char *fileName = "gcc.txt";
-        fp = fopen(fileName, "r");
+        p = fopen(fileName, "r");
     }
     else
     {
         char *fileName = "bzip.txt";
-        fp = fopen(fileName, "r");
+        p = fopen(fileName, "r");
     }
 
-    if (fp == NULL)
+    if (p == NULL)
     {
         printf("File does not exist \n");
         exit(0);
@@ -159,110 +159,111 @@ void algo(int file_number, int frame_size, int algo_nm)
 
     int frame_count = 0, page_miss = 0, page_hit = 0, read_count = 0, write_count = 0;
 
-if(algo_nm==1)
-{
-    printf("Chosen algorithm is : FIFO\n");
-    while (fscanf(fp,"%s %c\n", reference_string, &operator) != EOF)
+    if(algo_nm==1)
     {
-        if (frame_count < frame_size)
+        printf("Chosen algorithm is : FIFO\n");
+        while (fscanf(p,"%s %c\n", reference_string, &operator) != EOF)
         {
-            if (searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queque
+            if (frame_count < frame_size)
             {
-                insert_nd(reference_string);
-                frame_count++; // Update frame index as page has been added
-                page_miss++;
-                if (operator== 'R')
+                if (searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queque
                 {
-                    read_count++;
+                    insert_nd(reference_string);
+                    frame_count++; // Update frame index as page has been added
+                    page_miss++;
+                    if (operator== 'R')
+                    {
+                        read_count++;
+                    }
+                    else
+                    {
+                        write_count++;
+                    }
                 }
                 else
                 {
-                    write_count++;
+                    page_hit++;
                 }
             }
             else
             {
-                page_hit++;
-            }
-        }
-        else
-        {
-            if(searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queue
-            {
-                del_nd(0,1);
-                insert_nd(reference_string);
-                page_miss++;
-                if (operator== 'R')
+                if(searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queue
                 {
-                    read_count++;
+                    del_nd(0,1);
+                    insert_nd(reference_string);
+                    page_miss++;
+                    if (operator== 'R')
+                    {
+                       read_count++;
+                    }
+                    else
+                    {
+                        write_count++;
+                    }
                 }
                 else
                 {
-                    write_count++;
+                    page_hit++;
                 }
-            }
-            else
-            {
-                page_hit++;
             }
         }
     }
-}
-else
-{   
-    printf("Chosen algorithm is : LRU\n");
-    while (fscanf(fp,"%s %c\n", reference_string, &operator) != EOF)
-    {
-        int position;
-        if (frame_count < frame_size)
+    else
+    {   
+        printf("Chosen algorithm is : LRU\n");
+        while (fscanf(p,"%s %c\n", reference_string, &operator) != EOF)
         {
-            position = searching(reference_string, algo_nm);
-            if (position == -1) // Check if page is present in Frame queque
+            int position;
+            if (frame_count < frame_size)
             {
-                insert_nd(reference_string);
-                frame_count++; // Update frame index as page has been added
-                page_miss++;
-                if (operator== 'R')
+                position = searching(reference_string, algo_nm);
+                if (position == -1) // Check if page is present in Frame queque
                 {
-                    read_count++;
+                    insert_nd(reference_string);
+                    frame_count++; // Update frame index as page has been added
+                    page_miss++;
+                    if (operator== 'R')
+                    {
+                        read_count++;
+                    }
+                    else
+                    {
+                        write_count++;
+                    }
                 }
                 else
                 {
-                    write_count++;
+                    page_hit++;
+                    del_nd(position,2);
                 }
             }
             else
             {
-                page_hit++;
-                del_nd(position,2);
-            }
-        }
-        else
-        {
-            position = searching(reference_string, algo_nm);
-            if (position == -1) // Check if page is present in Frame queue
-            {
-                del_nd(0,1);
-                insert_nd(reference_string);
-                page_miss++;
-                if (operator== 'R')
+                position = searching(reference_string, algo_nm);
+                if (position == -1) // Check if page is present in Frame queue
                 {
-                    read_count++;
+                    del_nd(0,1);
+                    insert_nd(reference_string);
+                    page_miss++;
+                    if (operator== 'R')
+                    {
+                        read_count++;
+                    }
+                    else
+                    {
+                        write_count++;
+                    }
                 }
                 else
                 {
-                    write_count++;
+                    page_hit++;
+                    del_nd(position,2);
                 }
-            }
-            else
-            {
-                page_hit++;
-                del_nd(position,2);
             }
         }
     }
-}
+
     print_List();
     printf("\nNumber of Reads: %d\nNumber of Writes: %d\n", read_count, write_count);
-    fclose(fp);
+    fclose(p);
 }
