@@ -11,15 +11,15 @@ int main(int argc, char* argv[])
     int algo_nm = atoi(argv[3]);
     
 
-    printf("Selection details of file, frames and algorithm :\n");
+    printf("\nSelection details of file, frames and algorithm :\n");
 
 
     if(file_nm==1)
-    printf("chosen file : test.txt\n");
+    printf("Chosen file : test.txt\n");
     else if(file_nm==2)
-    printf("chosen file : gcc.txt\n");
+    printf("Chosen file : gcc.txt\n");
     else if(file_nm==3)
-    printf("chosen file : bzip.txt\n");
+    printf("Chosen file : bzip.txt\n");
     else
     {
     printf("You have chosen a wrong file number please run the code again and enter the correct file number \n 1.test.txt or 2.gcc.txt or 3.bzip.txt\n");
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     }
 
 
-    printf("chosen number of frames : %d\n",frame_sz);
+    printf("Chosen number of frames : %d\n",frame_sz);
 
 
     if(algo_nm >2)
