@@ -125,14 +125,14 @@ void print_List()
     puts("");
 }
 
-void FIFO_algorithm(int file_number, int frame_size)
+void algo_fifo(int file_number, int frame_size)
 {
 
     char reference_string[10], operator;
     FILE *fp;
     if (file_number == 1)
     {
-        char *fileName = "bzip.txt";
+        char *fileName = "test.txt";
         fp = fopen(fileName, "r");
     }
     else if (file_number == 2)
@@ -142,7 +142,7 @@ void FIFO_algorithm(int file_number, int frame_size)
     }
     else
     {
-        char *fileName = "test.txt";
+        char *fileName = "bzip.txt";
         fp = fopen(fileName, "r");
     }
 
@@ -203,13 +203,13 @@ void FIFO_algorithm(int file_number, int frame_size)
     fclose(fp);
 }
 
-void LRU_algorithm(int file_number, int frame_size)
+void algo_lru(int file_number, int frame_size)
 {
     char reference_string[10], operator;
     FILE *fp;
     if (file_number == 1)
     {
-        char *fileName = "bzip.txt";
+        char *fileName = "test.txt";
         fp = fopen(fileName, "r");
     }
     else if (file_number == 2)
@@ -219,7 +219,7 @@ void LRU_algorithm(int file_number, int frame_size)
     }
     else
     {
-        char *fileName = "test.txt";
+        char *fileName = "bzip.txt";
         fp = fopen(fileName, "r");
     }
 
