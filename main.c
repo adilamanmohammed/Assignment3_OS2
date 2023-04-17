@@ -30,12 +30,12 @@ int main(int argc, char* argv[])
     printf("chosen number of frames : %d\n",frame_sz);
 
 
-    if(algo_nm != 1||2)
+    /*if(algo_nm != 1|2)
     {
         printf("You have chosen a wrong algorithm number please run the code again and enter the correct algorithm number \n1.FIFO or 2.LRU\n");
         exit(0);
     }
-    else
+    else*/
     algo(file_nm,frame_sz, algo_nm);
 
     
