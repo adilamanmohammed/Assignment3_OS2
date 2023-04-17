@@ -4,5 +4,4 @@ void print_List();
 void insert_Operation(char *);
 void delete_Node();
 void delete_Node_LRU(int);
-void algo_fifo(int, int);
-void algo_lru(int, int);
+void algo(int, int, int);
