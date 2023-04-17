@@ -125,7 +125,7 @@ void print_List()
     puts("");
 }
 
-void algo_fifo(int file_number, int frame_size)
+void algo(int file_number, int frame_size, int algo_nm)
 {
 
     char reference_string[10], operator;
@@ -153,6 +153,8 @@ void algo_fifo(int file_number, int frame_size)
     }
 
     int frame_count = 0, page_miss = 0, page_hit = 0, read_count = 0, write_count = 0;
+if(algo_nm==1)
+{
     while (fscanf(fp, "%s %c\n", reference_string, &operator) != EOF)
     {
         if (frame_count < frame_size)
@@ -198,38 +200,9 @@ void algo_fifo(int file_number, int frame_size)
             }
         }
     }
-    print_List();
-    printf("\nNumber of Reads: %d\nNumber of Writes: %d\n", read_count, write_count);
-    fclose(fp);
 }
-
-void algo_lru(int file_number, int frame_size)
+else
 {
-    char reference_string[10], operator;
-    FILE *fp;
-    if (file_number == 1)
-    {
-        char *fileName = "test.txt";
-        fp = fopen(fileName, "r");
-    }
-    else if (file_number == 2)
-    {
-        char *fileName = "gcc.txt";
-        fp = fopen(fileName, "r");
-    }
-    else
-    {
-        char *fileName = "bzip.txt";
-        fp = fopen(fileName, "r");
-    }
-
-    if (fp == NULL)
-    {
-        printf("File does not exist \n");
-        exit(0);
-    }
-
-    int frame_count = 0, page_miss = 0, page_hit = 0, read_count = 0, write_count = 0;
     while (fscanf(fp, "%s %c\n", reference_string, &operator) != EOF)
     {
         int position;
@@ -280,9 +253,10 @@ void algo_lru(int file_number, int frame_size)
             }
         }
     }
+}
     print_List();
     printf("\nNumber of Reads: %d\nNumber of Writes: %d\n", read_count, write_count);
-    // Closing the file
     fclose(fp);
 }
+
 
