@@ -12,12 +12,12 @@ typedef struct s_list nd;
 nd *start_pt = NULL;
 nd *end_pt = NULL;
 
-void insert_nd(char *value)
+void insert_nd(char *A)
 {
     nd *buff_nd;
     buff_nd = (nd *)malloc(sizeof(nd));
 
-    strcpy(buff_nd->stringrf, value);
+    strcpy(buff_nd->stringrf, A);
     buff_nd->next = NULL;
 
     // For the 1st element
@@ -71,7 +71,7 @@ void del_nd(int nd_p,int type)
     }
 }
 
-int searching(char *value, int nm)
+int searching(char *B, int nm)
 {
     if(nm==1)
     {
@@ -79,7 +79,7 @@ int searching(char *value, int nm)
     int flag = 0;
     while (searchNode != NULL)
     {
-        if (strcmp(searchNode->stringrf, value) == 0)
+        if (strcmp(searchNode->stringrf, B) == 0)
         {
             flag = 1;
             break;
@@ -101,7 +101,7 @@ int searching(char *value, int nm)
     while (searchNode != NULL)
     {
         count++;
-        if (strcmp(searchNode->stringrf, value) == 0)
+        if (strcmp(searchNode->stringrf, B) == 0)
         {
             position = count;
             break;
@@ -119,14 +119,13 @@ int searching(char *value, int nm)
 void print_List()
 {
     printf("\nContents of Page Frame are\n");
-    nd *myLinkList;
-    myLinkList = start_pt;
-    while (myLinkList != NULL)
+    nd *pt;
+    pt = start_pt;
+    while (pt != NULL)
     {
-        printf("%s ", myLinkList->stringrf);
-        myLinkList = myLinkList->next;
+        printf("%s ", pt->stringrf);
+        pt = pt->next;
     }
-    puts("");
 }
 
 
@@ -267,5 +266,3 @@ else
     printf("\nNumber of Reads: %d\nNumber of Writes: %d\n", read_count, write_count);
     fclose(fp);
 }
-
-
