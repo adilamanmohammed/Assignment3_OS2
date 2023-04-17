@@ -2,72 +2,72 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Linked_List
+struct s_list
 {
-    char Refernce_String[10];
-    struct Linked_List *next;
+    struct s_list *next;
+    char stringrf[1000];
 };
 
-typedef struct Linked_List node;
-node *Head = NULL;
-node *Tail = NULL;
+typedef struct s_list node;
+node *start_pt = NULL;
+node *end_pt = NULL;
 
 void insert_Operation(char *value)
 {
     node *temp_node;
     temp_node = (node *)malloc(sizeof(node));
 
-    strcpy(temp_node->Refernce_String, value);
+    strcpy(temp_node->stringrf, value);
     temp_node->next = NULL;
 
     // For the 1st element
-    if (Head == NULL)
+    if (start_pt == NULL)
     {
-        Head = temp_node;
-        Tail = temp_node;
+        start_pt = temp_node;
+        end_pt = temp_node;
     }
     else
     {
-        Tail->next = temp_node;
-        Tail = temp_node;
+        end_pt->next = temp_node;
+        end_pt = temp_node;
     }
 }
 
-void delete_Node_LRU(int pos)
+void del_nd(int pos,int type)
 {
-    node *temp = Head; // Creating a temporary variable pointing to Head
-    int i;
-    if (pos == 0)
+    if(type==1)
     {
-        Head = Head->next; // Advancing the Head pointer
-        temp->next = NULL;
-        insert_Operation(temp->Refernce_String);
-    }
-    else
-    {
-        for (i = 0; i < pos - 1; i++)
+        node *toDelete;
+        if (start_pt == NULL)
         {
-            temp = temp->next;
+            printf("List is already empty.");
         }
-        node *del = temp->next; // del pointer points to the node to be deleted
-        temp->next = temp->next->next;
-        insert_Operation(del->Refernce_String);
-        del->next = NULL;
-    }
-    return;
-}
-
-void delete_Node()
-{
-    node *toDelete;
-    if (Head == NULL)
-    {
-        printf("List is already empty.");
+        else
+        {
+            toDelete = start_pt;
+            start_pt = start_pt->next;
+        }
     }
     else
     {
-        toDelete = Head;
-        Head = Head->next;
+        node *temp = start_pt; // Creating a temporary variable pointing to start_pt
+        if (pos == 0)
+        {
+            start_pt = start_pt->next; // Advancing the start_pt pointer
+            temp->next = NULL;
+            insert_Operation(temp->stringrf);
+        }
+        else
+        {
+            for (int i = 0; i < pos - 1; i++)
+            {
+                temp = temp->next;
+            }
+            node *del = temp->next; // del pointer points to the node to be deleted
+            temp->next = temp->next->next;
+            insert_Operation(del->stringrf);
+            del->next = NULL;
+        }
     }
 }
 
@@ -75,11 +75,11 @@ int searching(char *value, int nm)
 {
     if(nm==1)
     {
-    node *searchNode = Head;
+    node *searchNode = start_pt;
     int flag = 0;
     while (searchNode != NULL)
     {
-        if (strcmp(searchNode->Refernce_String, value) == 0)
+        if (strcmp(searchNode->stringrf, value) == 0)
         {
             flag = 1;
             break;
@@ -94,14 +94,14 @@ int searching(char *value, int nm)
     }
     else
     {
-        node *searchNode = Head;
+        node *searchNode = start_pt;
     int position = -1;
     int count = -1;
 
     while (searchNode != NULL)
     {
         count++;
-        if (strcmp(searchNode->Refernce_String, value) == 0)
+        if (strcmp(searchNode->stringrf, value) == 0)
         {
             position = count;
             break;
@@ -120,10 +120,10 @@ void print_List()
 {
     printf("\nContents of Page Frame are\n");
     node *myLinkList;
-    myLinkList = Head;
+    myLinkList = start_pt;
     while (myLinkList != NULL)
     {
-        printf("%s ", myLinkList->Refernce_String);
+        printf("%s ", myLinkList->stringrf);
         myLinkList = myLinkList->next;
     }
     puts("");
@@ -159,6 +159,7 @@ void algo(int file_number, int frame_size, int algo_nm)
     }
 
     int frame_count = 0, page_miss = 0, page_hit = 0, read_count = 0, write_count = 0;
+
 if(algo_nm==1)
 {
     while (fscanf(fp,"%s %c\n", reference_string, &operator) != EOF)
@@ -188,7 +189,7 @@ if(algo_nm==1)
         {
             if(searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queue
             {
-                delete_Node();
+                del_nd(0,1);
                 insert_Operation(reference_string);
                 page_miss++;
                 if (operator== 'R')
@@ -232,7 +233,7 @@ else
             else
             {
                 page_hit++;
-                delete_Node_LRU(position);
+                del_nd(position,2);
             }
         }
         else
@@ -240,7 +241,7 @@ else
             position = searching(reference_string, algo_nm);
             if (position == -1) // Check if page is present in Frame queue
             {
-                delete_Node();
+                del_nd(0,1);
                 insert_Operation(reference_string);
                 page_miss++;
                 if (operator== 'R')
@@ -255,7 +256,7 @@ else
             else
             {
                 page_hit++;
-                delete_Node_LRU(position);
+                del_nd(position,2);
             }
         }
     }
@@ -264,5 +265,3 @@ else
     printf("\nNumber of Reads: %d\nNumber of Writes: %d\n", read_count, write_count);
     fclose(fp);
 }
-
-
