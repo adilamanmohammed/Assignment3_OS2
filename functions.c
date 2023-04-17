@@ -134,6 +134,7 @@ void algo(int f_nm, int f_sz, int algo_nm)
 {
 
     FILE *p;
+    int frm_c = 0, pg_miss = 0, p_hit = 0, rd_c = 0, wr_c = 0;
     char stringrf[100], optr;
     
     if (f_nm == 1)
@@ -158,7 +159,7 @@ void algo(int f_nm, int f_sz, int algo_nm)
         exit(0);
     }
 
-    int frm_c = 0, pg_miss = 0, p_hit = 0, rd_c = 0, wr_c = 0;
+
 
     if(algo_nm==1)
     {
