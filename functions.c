@@ -71,8 +71,10 @@ void delete_Node()
     }
 }
 
-int search_Item(char *value)
+int searching(char *value, int nm)
 {
+    if(nm==1)
+    {
     node *searchNode = Head;
     int flag = 0;
     while (searchNode != NULL)
@@ -89,11 +91,10 @@ int search_Item(char *value)
     {
     }
     return flag;
-}
-
-int search_Item_LRU(char *value)
-{
-    node *searchNode = Head;
+    }
+    else
+    {
+        node *searchNode = Head;
     int position = -1;
     int count = -1;
 
@@ -110,7 +111,10 @@ int search_Item_LRU(char *value)
     }
 
     return position;
+    }
 }
+
+
 
 void print_List()
 {
@@ -124,6 +128,8 @@ void print_List()
     }
     puts("");
 }
+
+
 
 void algo(int file_number, int frame_size, int algo_nm)
 {
@@ -155,11 +161,11 @@ void algo(int file_number, int frame_size, int algo_nm)
     int frame_count = 0, page_miss = 0, page_hit = 0, read_count = 0, write_count = 0;
 if(algo_nm==1)
 {
-    while (fscanf(fp, "%s %c\n", reference_string, &operator) != EOF)
+    while (fscanf(fp,"%s %c\n", reference_string, &operator) != EOF)
     {
         if (frame_count < frame_size)
         {
-            if (search_Item(reference_string) == 0) // Check if page is present in Frame queque
+            if (searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queque
             {
                 insert_Operation(reference_string);
                 frame_count++; // Update frame index as page has been added
@@ -180,7 +186,7 @@ if(algo_nm==1)
         }
         else
         {
-            if (search_Item(reference_string) == 0) // Check if page is present in Frame queue
+            if(searching(reference_string, algo_nm) == 0) // Check if page is present in Frame queue
             {
                 delete_Node();
                 insert_Operation(reference_string);
@@ -203,12 +209,12 @@ if(algo_nm==1)
 }
 else
 {
-    while (fscanf(fp, "%s %c\n", reference_string, &operator) != EOF)
+    while (fscanf(fp,"%s %c\n", reference_string, &operator) != EOF)
     {
         int position;
         if (frame_count < frame_size)
         {
-            position = search_Item_LRU(reference_string);
+            position = searching(reference_string, algo_nm);
             if (position == -1) // Check if page is present in Frame queque
             {
                 insert_Operation(reference_string);
@@ -231,7 +237,7 @@ else
         }
         else
         {
-            position = search_Item_LRU(reference_string);
+            position = searching(reference_string, algo_nm);
             if (position == -1) // Check if page is present in Frame queue
             {
                 delete_Node();
