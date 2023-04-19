@@ -1,3 +1,6 @@
+//Adil Aman Mohammed 
+//CWID: A20395630
+
 //declaration of library
 #include<stdio.h>
 #include <stdlib.h>
