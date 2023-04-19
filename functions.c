@@ -133,29 +133,18 @@ int searching(char *B, int nm)
     }
 }
 
-
-//print function for printing contents 
-void print_Lt()
-{
-    printf("\nContents of Page Frame are\n");
-    nd *pt;
-    pt = start_pt;
-    while (pt != NULL)
-    {
-        printf("%s ", pt->stringrf);
-        pt = pt->next;
-    }
-}
-
-
-
+//main logic for fifo and. lru algorithm 
+//takes input of file. number, frames,  which algorithm
 void algo(int f_nm, int f_sz, int algo_nm)
 {
-
+    //declaration. of file pointer
     FILE *p;
+    //declaration. of required variables 
     int frm_c = 0, pg_miss = 0, p_hit = 0, rd_c = 0, wr_c = 0;
+    //declaration of string variable and string array
     char stringrf[100], optr;
     
+    //check which file to open 
     if (f_nm == 1)
     {
         char *fname = "test.txt";
@@ -179,18 +168,20 @@ void algo(int f_nm, int f_sz, int algo_nm)
     }
 
 
-
+    //check if the algo type is fifo or lru
     if(algo_nm==1)
     {
+        //logic for fifo
         printf("Chosen algorithm is : FIFO\n");
+        //loop for taking. input of string till the end of the file
         while (fscanf(p,"%s %c\n", stringrf, &optr) != EOF)
         {
-            if (frm_c < f_sz)
+            if (frm_c < f_sz) 
             {
-                if (searching(stringrf, algo_nm) == 0) // Check if page is present in Frame queque
+                if (searching(stringrf, algo_nm) == 0) 
                 {
                     insert_nd(stringrf);
-                    frm_c= frm_c+1; // Update frame index as page has been added
+                    frm_c= frm_c+1; 
                     pg_miss=pg_miss+1;
                     if (optr== 'R')
                     {
@@ -208,7 +199,7 @@ void algo(int f_nm, int f_sz, int algo_nm)
             }
             else
             {
-                if(searching(stringrf, algo_nm) == 0) // Check if page is present in Frame queue
+                if(searching(stringrf, algo_nm) == 0)
                 {
                     del_nd(0,1);
                     insert_nd(stringrf);
@@ -231,17 +222,20 @@ void algo(int f_nm, int f_sz, int algo_nm)
     }
     else
     {   
+        //loogic for lru
         printf("Chosen algorithm is : LRU\n");
+        //loop to take string as input till end of file
         while (fscanf(p,"%s %c\n", stringrf, &optr) != EOF)
         {
-            int position;
+            //declaring variable to store position 
+            int p;
             if (frm_c < f_sz)
             {
-                position = searching(stringrf, algo_nm);
-                if (position == -1) // Check if page is present in Frame queque
+                p = searching(stringrf, algo_nm);
+                if (p == -1) 
                 {
                     insert_nd(stringrf);
-                    frm_c=frm_c+1; // Update frame index as page has been added
+                    frm_c=frm_c+1; 
                     pg_miss=pg_miss+1;
                     if (optr== 'R')
                     {
@@ -255,13 +249,14 @@ void algo(int f_nm, int f_sz, int algo_nm)
                 else
                 {
                     p_hit=p_hit+1;
-                    del_nd(position,2);
+                    del_nd(p,2);
                 }
             }
             else
             {
-                position = searching(stringrf, algo_nm);
-                if (position == -1) // Check if page is present in Frame queue
+                p = searching(stringrf, algo_nm);
+
+                if (p == -1) 
                 {
                     del_nd(0,1);
                     insert_nd(stringrf);
@@ -275,13 +270,12 @@ void algo(int f_nm, int f_sz, int algo_nm)
                 else
                 {
                     p_hit=p_hit+1;
-                    del_nd(position,2);
+                    del_nd(p,2);
                 }
             }
         }
     }
 
-    print_Lt();
     printf("\nNumber of Reads: %d \nNumber of Writes: %d\n", rd_c, wr_c);
     fclose(p);
 }
