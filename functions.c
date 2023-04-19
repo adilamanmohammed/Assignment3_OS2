@@ -184,13 +184,9 @@ void algo(int f_nm, int f_sz, int algo_nm)
                     frm_c= frm_c+1; 
                     pg_miss=pg_miss+1;
                     if (optr== 'R')
-                    {
-                        rd_c=rd_c+1;
-                    }
+                    rd_c=rd_c+1;
                     else
-                    {
-                        rd_c=rd_c+1;
-                    }
+                    rd_c=rd_c+1;
                 }
                 else
                 {
@@ -205,13 +201,9 @@ void algo(int f_nm, int f_sz, int algo_nm)
                     insert_nd(stringrf);
                     pg_miss=pg_miss+1;
                     if (optr== 'R')
-                    {
-                       rd_c=rd_c+1;
-                    }
+                    rd_c=rd_c+1;
                     else
-                    {
-                        wr_c=wr_c+1;
-                    }
+                    wr_c=wr_c+1;
                 }
                 else
                 {
@@ -231,20 +223,16 @@ void algo(int f_nm, int f_sz, int algo_nm)
             int p;
             if (frm_c < f_sz)
             {
-                p = searching(stringrf, algo_nm);
+            p = searching(stringrf, algo_nm);
                 if (p == -1) 
                 {
-                    insert_nd(stringrf);
+                insert_nd(stringrf);
                     frm_c=frm_c+1; 
                     pg_miss=pg_miss+1;
                     if (optr== 'R')
-                    {
-                        rd_c=rd_c+1;
-                    }
+                    rd_c=rd_c+1;
                     else
-                    {
-                        wr_c=wr_c+1;
-                    }
+                    wr_c=wr_c+1;
                 }
                 else
                 {
@@ -276,6 +264,8 @@ void algo(int f_nm, int f_sz, int algo_nm)
         }
     }
 
+    //printing the no. of reads and writes
     printf("\nNumber of Reads: %d \nNumber of Writes: %d\n", rd_c, wr_c);
+    //closing the file
     fclose(p);
 }
