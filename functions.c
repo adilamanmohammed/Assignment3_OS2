@@ -1,7 +1,9 @@
+//declaration of library
 #include<stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+//declaration of linked list and struct 
 struct s_list
 {
     struct s_list *next;
@@ -14,13 +16,16 @@ nd *end_pt = NULL;
 
 void insert_nd(char *A)
 {
+    //declaration of pointer
     nd *buff_nd;
+    //allocation of memory
     buff_nd = (nd *)malloc(sizeof(nd));
 
+    //comparing the pointer nd with reference string
     strcpy(buff_nd->stringrf, A);
     buff_nd->next = NULL;
 
-    // For the 1st element
+    //check if the list is empty
     if (start_pt == NULL)
     {
         start_pt = buff_nd;
@@ -28,6 +33,7 @@ void insert_nd(char *A)
     }
     else
     {
+        //move tail to next
         end_pt->next = buff_nd;
         end_pt = buff_nd;
     }
@@ -35,8 +41,10 @@ void insert_nd(char *A)
 
 void del_nd(int nd_p,int type)
 {
+    //check delete operation for fifo or lru
     if(type==1)
     {
+        //deletion of node for fifo
         nd *target;
         if (start_pt == NULL)
         {
@@ -50,11 +58,15 @@ void del_nd(int nd_p,int type)
     }
     else
     {
-        nd *buff_nd = start_pt; // Creating a buffer variable pointing to start_pt
+        //deletion function for lru
+        // Creating a buffer variable for pointing to start_pt
+        nd *buff_nd = start_pt;
         if (nd_p == 0)
         {
-            start_pt = start_pt->next; // Advancing the start_pt pointer
+            //move the start_pt to next 
+            start_pt = start_pt->next;
             buff_nd->next = NULL;
+            //calling insert
             insert_nd(buff_nd->stringrf);
         }
         else
@@ -63,60 +75,67 @@ void del_nd(int nd_p,int type)
             {
                 buff_nd = buff_nd->next;
             }
-            nd *nd_del = buff_nd->next; // del pointer points to the node to be deleted
+            nd *nd_del = buff_nd->next; 
             buff_nd->next = buff_nd->next->next;
+            //calling insert_nd
             insert_nd(nd_del->stringrf);
             nd_del->next = NULL;
         }
     }
 }
 
+//searching function takes a string and number as input
 int searching(char *B, int nm)
 {
-    if(nm==1)
+    if(nm==1) // check if for fifo or lru searching
     {
-    nd *searchNode = start_pt;
-    int flag = 0;
-    while (searchNode != NULL)
+    //searching for fifo
+    //declaration 
+    nd *search_Nd = start_pt;
+    //declaration of flag
+    int f = 0;
+    //while loop to serach till the end of the contents
+    while (search_Nd != NULL)
     {
-        if (strcmp(searchNode->stringrf, B) == 0)
+        if (strcmp(search_Nd->stringrf, B) == 0)
         {
-            flag = 1;
+            f = 1;
             break;
         }
         else
-            searchNode = searchNode->next;
+            search_Nd = search_Nd->next;
     }
-    if (flag == 0)
-    {
-    }
-    return flag;
+
+    return f;
     }
     else
     {
-        nd *searchNode = start_pt;
-    int position = -1;
-    int count = -1;
 
-    while (searchNode != NULL)
+        //searching for lru
+    nd *search_Nd = start_pt;
+    int p = -1;
+    int c = -1;
+
+    //loop to search
+    while (search_Nd != NULL)
     {
-        count++;
-        if (strcmp(searchNode->stringrf, B) == 0)
+        c++;
+        if (strcmp(search_Nd->stringrf, B) == 0)
         {
-            position = count;
+            p = c;
             break;
         }
         else
-            searchNode = searchNode->next;
+            search_Nd = search_Nd->next;
     }
 
-    return position;
+    return p;
     }
 }
 
 
-
-void print_List()
+//print function for printing contents 
+void print_Lt()
 {
     printf("\nContents of Page Frame are\n");
     nd *pt;
@@ -262,7 +281,7 @@ void algo(int f_nm, int f_sz, int algo_nm)
         }
     }
 
-    print_List();
+    print_Lt();
     printf("\nNumber of Reads: %d \nNumber of Writes: %d\n", rd_c, wr_c);
     fclose(p);
 }
